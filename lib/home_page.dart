@@ -3,7 +3,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:training/video_info.dart';
 
 // ignore: use_key_in_widget_constructors
 class HomePage extends StatefulWidget {
@@ -14,9 +16,14 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   // load data from json file
   List info = [];
-  _initData() {
-    DefaultAssetBundle.of(context).loadString("json/info.json").then((value) {
-      info = jsonDecode(value);
+
+  _initData() async {
+    await DefaultAssetBundle.of(context)
+        .loadString("json/info.json")
+        .then((value) {
+      setState(() {
+        info = jsonDecode(value);
+      });
     });
   }
 
@@ -31,7 +38,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: Container(
         // ignore: prefer_const_constructors
-        padding: EdgeInsets.fromLTRB(10, 70, 10, 0),
+        padding: EdgeInsets.fromLTRB(10, 70, 20, 0),
         child: Column(
           children: [
             Row(
@@ -75,14 +82,19 @@ class _HomePageState extends State<HomePage> {
                 Text(
                   'تفاصيل',
                   style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w400,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
                       color: Colors.red),
                 ),
-                SizedBox(width: 7),
-                Icon(
-                  Icons.arrow_forward,
-                  size: 20,
+                SizedBox(width: 6),
+                InkWell(
+                  onTap: () {
+                    Get.to(() => VideoInfo());
+                  },
+                  child: Icon(
+                    Icons.arrow_forward,
+                    size: 25,
+                  ),
                 )
               ],
             ),
